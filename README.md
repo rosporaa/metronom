@@ -5,22 +5,22 @@
 ## Jednoduchy Metronom
 
 Win:   
-Nakopiruj VSETKy tri subory (exe, wav, ttf) niekam do pocitaca (do toho isteho priecinka).   
+Nakopíruj VŠETKY tri súbory (exe, wav, ttf) niekam do počítača (do toho istého priečinka).   
 Spusti metron.exe   
 Linux:   
-Je potrebne mat nainstalovany Python3 a moduly pygame a numpy.   
+Je potrebné mať nainštalovaný Python3 a moduly pygame a numpy.   
 Spusti python3 metron.pyw
 
 
-Ovladanie:
- - Klavesnica
-   - plus, minus              : hlasitost
-   - sipka vpravo, sipka vlavo : zvysenie/znizenie BPM o 10
-   - sipka hore, sipka dole    : zvysenie/znizenie BPM o 1
+Ovládanie:
+ - Klávesnica
+   - plus, mínus               : hlasitosť
+   - šípka vpravo, šípka vľavo : zvýšenie/zníženie BPM o 10
+   - šípka hore, šípka dole    : zvýšenie/zníženie BPM o 1
    - q                         : koniec programu
-  - Mys
-    - kliknutim na BPM zvysujete/znuzijete BPM o 10 (lave alebo prave tlacidlo)
-    - kliknutim na + a - upravujete hlasitost
+  - Myš
+    - kliknutím na BPM zvyšujete/znžujete BPM o 10 (ľavé alebo pravé tlačidlo myšky)
+    - kliknutím na + a - upravujete hlasitosť
 
 ## Simple metronome
 
@@ -39,7 +39,7 @@ Controls:
    - arrow up, arrow down     : increase/decrease BPM by 1
    - q                        : quit 
   - Mouse
-    - click on BPM to increase/decrease BPM by 10 (left or right button)
+    - click on BPM to increase/decrease BPM by 10 (left or right mouse button)
     - click on + or - to increase/decrease volume
 
 Poznamky/Notes:   
