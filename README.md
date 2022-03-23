@@ -32,3 +32,6 @@ Controls:
  - arrow up, arrow down     : increase/decrease BPM per 1
  - q                        : quit 
 
+Note:   
+ttf downloaded ffom http://www.freefontsdownload.net   
+exe created by: pyinstaller --onefile metron.pyw
