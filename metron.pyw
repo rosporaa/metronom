@@ -44,14 +44,19 @@ if __name__ == "__main__":
   pygame.display.set_caption("Metronóm")
 
   # fonts
-  text_bmp_font = pygame.font.Font(ffont, 40)
+  text_bmp_font  = pygame.font.Font(ffont, 40)
   text_tick_font = pygame.font.Font(ffont, 32)
   text_info_font = pygame.font.Font(ffont, 14)
+  text_copy_font = pygame.font.Font(ffont, 9)
 
   # texts
   text_bmp = text_bmp_font.render("BPM: " + str(bmp), True, "#FFFFFF")
+  text_bmp_rect = text_bmp.get_rect(topleft = (10, 0))
+  text_get_vol = text_info_font.render(get_volume_text(volume), True, "#FFFFFF")
+  text_get_vol_rect = text_get_vol.get_rect(topleft = (44, 52))
 
-  text_info1 = text_info_font.render("Use: \u2191 , \u2193 , \u2192 , \u2190 , q        \u00a9 2022 VlNa", True, "#FFFFFF")
+  text_info1 = text_info_font.render("Use arrows or mouse", True, "#FFFFFF")
+  text_copy  = text_copy_font.render("Vlna \u00a9 2022", True, "#FFFFFF")
 
   text_tick  = text_tick_font.render("\u266a", True, "#FFFFFF")
 
@@ -95,6 +100,30 @@ if __name__ == "__main__":
         if event.key == pygame.K_q:
           sys.exit(0)
 
+      if event.type == pygame.MOUSEBUTTONDOWN:
+        if event.button == 1:
+          mx, my = pygame.mouse.get_pos()
+          # bpm
+          if  text_bmp_rect.x < mx < (text_bmp_rect.x + text_bmp_rect.width)  and  text_bmp_rect.y < my < (text_bmp_rect.y + text_bmp_rect.height):
+            if bmp < bmp_max :
+              bmp += 10
+              if bmp > bmp_max: bmp = bmp_max
+          # volume
+          if  text_get_vol_rect.x < mx < (text_get_vol_rect.x + 20)  and  text_get_vol_rect.y < my < (text_get_vol_rect.y + text_get_vol_rect.height):
+            if volume > 0.09:
+              volume -= 0.1
+          if  (text_get_vol_rect.x + text_get_vol_rect.width - 20) < mx < (text_get_vol_rect.x + text_get_vol_rect.width)  and  text_get_vol_rect.y < my < (text_get_vol_rect.y + text_get_vol_rect.height):
+            if volume < 1.0:
+              volume += 0.1
+
+        if event.button == 3:
+          mx, my = pygame.mouse.get_pos()
+          if  text_bmp_rect.x < mx < text_bmp_rect.width  and  text_bmp_rect.y < my < text_bmp_rect.height:
+            if bmp > bmp_min :
+              bmp -= 10
+              if bmp < bmp_min: bmp = bmp_min
+
+
     screen.fill(bg_color)
 
     # play sound, change tick
@@ -115,12 +144,10 @@ if __name__ == "__main__":
 
     # graphics
     screen.blit(text_tick, (tx, 6))   
-
-    screen.blit(text_bmp, (10, 0))
-
-    screen.blit(text_get_vol, (44, 52))        
-
+    screen.blit(text_bmp, text_bmp_rect)
+    screen.blit(text_get_vol, text_get_vol_rect)        
     screen.blit(text_info1, (10, 80))  
+    screen.blit(text_copy,  (195, 95))      
 
     pygame.display.update()
     pygame.time.Clock().tick(100)
