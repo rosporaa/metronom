@@ -1,9 +1,11 @@
-# metronom
+# Metronóm / Metronome
 
-Jednoduchy Metronom
+![Preview](preview.png)
+
+## Jednoduchy Metronom
 
 Win:   
-Nakopiruj VSETKy tri subory (exe, wav, ttf) niekam do pocitaca (do toho isteho priecinka).
+Nakopiruj VSETKy tri subory (exe, wav, ttf) niekam do pocitaca (do toho isteho priecinka).   
 Spusti metron.exe   
 Linux:   
 Je potrebne mat nainstalovany Python3 a moduly pygame a numpy.   
@@ -16,22 +18,24 @@ Ovladanie:
  - sipka hore, sipka dole    : zvysenie/znizenie BPM o 1
  - q                         : koniec programu
 
-Simple metronome.
+## Simple metronome
 
 Win:   
 Copy all three files (exe, wav, ttf) to your computer (to the same directory).   
 Run metron.exe    
 
 Linux:    
-Required installed python3 and modules pygame and numpy.   
+Required python3 and modules pygame and numpy.   
 Run python3 metron.pyw
 
 Controls:
  - plus, minus              : volume
- - arrow left, arrow right  : increase/decrease BPM per 10
- - arrow up, arrow down     : increase/decrease BPM per 1
+ - arrow left, arrow right  : increase/decrease BPM by 10
+ - arrow up, arrow down     : increase/decrease BPM by 1
  - q                        : quit 
 
-Note:   
+Poznamky/Notes:   
 ttf downloaded from http://www.freefontsdownload.net   
-exe created by: pyinstaller --onefile metron.pyw on W10
+exe created by: pyinstaller --onefile metron.pyw (on W10)
+
+Credits to: vladonix@gmail.com  :)
