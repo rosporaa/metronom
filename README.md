@@ -33,5 +33,5 @@ Controls:
  - q                        : quit 
 
 Note:   
-ttf downloaded ffom http://www.freefontsdownload.net   
-exe created by: pyinstaller --onefile metron.pyw
+ttf downloaded from http://www.freefontsdownload.net   
+exe created by: pyinstaller --onefile metron.pyw on W10
