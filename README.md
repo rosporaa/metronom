@@ -9,7 +9,7 @@ Nakopírujte VŠETKY štyri súbory (exe, wav, wav, ttf) niekam do počítača (
 Spustite metron.exe   
 
 Linux:   
-Je potrebné mať nainštalovaný Python3 a moduly pygame a numpy.   
+Je potrebné mať nainštalovaný Python3 a modul pygame.   
 Spustite python3 metron.pyw
 
 
@@ -41,7 +41,7 @@ Copy all four files (exe, wav, wav, ttf) to your computer (to the same directory
 Run metron.exe    
 
 Linux:    
-Required python3 and modules pygame and numpy.   
+Required python3 and module pygame.   
 Run python3 metron.pyw
 
 Controls:
