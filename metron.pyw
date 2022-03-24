@@ -60,8 +60,9 @@ if __name__ == "__main__":
   bmp_max = 240
   bmp_min = 20
   sw = 250                # screen
-  sh = 150
+  sh = 130
   volume = 1.0
+  ppause = False
   tnum = True
   tx = 183
   ffont = 'seguisym.ttf'  # font eith symbols
@@ -69,15 +70,12 @@ if __name__ == "__main__":
   hsound = 'metr_h.wav'   # high sound
   bg_color = "#009999"
   rmaxlen = 32            # max periods in rhythm
-  rytm = ""               # rhythm oto play
+  rytm = ""               # rhythm to play
   term = max_term = 0
 
-  # paths
-  if not os.path.exists(ffont):
-    sys.exit(1)
-
-  if not os.path.exists(tsound)  or  not os.path.exists(hsound):
-    sys.exit(1)
+  # files
+  if not os.path.exists(ffont)  or  not os.path.exists(tsound)  or  not os.path.exists(hsound):
+    sys.exit(0)
 
   if sys.argv and len(sys.argv) > 1:
     rytm, bmp = rytm_read(sys.argv[1], rmaxlen)
@@ -104,17 +102,19 @@ if __name__ == "__main__":
   text_get_vol = text_info_font.render(get_volume_text(volume), True, "#FFFFFF")
   text_get_vol_rect = text_get_vol.get_rect(topleft = (44, 52))
 
-  text_info1 = text_info_font.render("Use arrows or mouse", True, "#FFFFFF")
-  text_copy  = text_copy_font.render("Vlna \u00a9 2022", True, "#FFFFFF")
+  #text_info1 = text_info_font.render("Use arrows or mouse", True, "#FFFFFF")
+  #text_copy  = text_copy_font.render("Vlna \u00a9 2022", True, "#FFFFFF")
+  text_pause = text_info_font.render("... paused", True, "#FFFFFF")
 
   text_tick  = text_tick_font.render("\u266a", True, "#FFFFFF")
 
   if rytm:
-    text_rytm = text_rytm_font.render(rytm, True, "#FFFFFF")
+    text_rytm = text_rytm_font.render(rytm, True, "#00CCCC")
   else:
-    text_rytm = text_rytm_font.render("Rhytm: None", True, "#FFFFFF")
+    text_rytm = text_rytm_font.render("Rhythm: None", True, "#FFFFFF")
 
   text_rytm_actual = text_rytm_font.render(get_rytm_actual(rytm, term), True, "#FFFFFF")
+  text_term = text_rytm_font.render(str(term+1), True, "#FFFFFF")
 
   # sound
   msound = pygame.mixer.Sound(tsound)
@@ -131,11 +131,11 @@ if __name__ == "__main__":
     max_term = len(rytm)
 
   while True:
-    # keyboard
+    # controls
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
         sys.exit(0)
-
+      # keyboard
       if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_UP:
           if bmp < bmp_max:
@@ -159,10 +159,12 @@ if __name__ == "__main__":
         if event.key == pygame.K_MINUS:
           if volume > 0.09 :
             volume -= 0.1
-
+        # quit
         if event.key == pygame.K_q:
           sys.exit(0)
-
+        # pause
+        if event.key == pygame.K_SPACE:
+          ppause = False if ppause else True
       # mouse
       if event.type == pygame.MOUSEBUTTONDOWN:
         if event.button == 1:
@@ -179,7 +181,7 @@ if __name__ == "__main__":
           if  (text_get_vol_rect.x + text_get_vol_rect.width - 20) < mx < (text_get_vol_rect.x + text_get_vol_rect.width)  and  text_get_vol_rect.y < my < (text_get_vol_rect.y + text_get_vol_rect.height):
             if volume < 1.0:
               volume += 0.1
-        # BPM -
+        # BPM - 
         if event.button == 3:
           mx, my = pygame.mouse.get_pos()
           if  text_bmp_rect.x < mx < text_bmp_rect.width  and  text_bmp_rect.y < my < text_bmp_rect.height:
@@ -189,27 +191,30 @@ if __name__ == "__main__":
 
     screen.fill(bg_color)
 
-    # play sound, change tick, show rhythm
-    if  (pygame.time.get_ticks() - lastt) > int(1000/(bmp/60)):
-      lastt = pygame.time.get_ticks()
-      if rytm  and  rytm[term] == '-':
-        hsound.set_volume(volume)
-        hsound.play()
-      else:
-        msound.set_volume(volume)
-        msound.play()
+    if not ppause:
+      # play sound, change tick, show rhythm
+      if  (pygame.time.get_ticks() - lastt) > int(1000/(bmp/60)):
+        lastt = pygame.time.get_ticks()
+        if rytm  and  rytm[term] == '-':
+          hsound.set_volume(volume)
+          hsound.play()
+        else:
+          msound.set_volume(volume)
+          msound.play()
 
-      text_rytm_actual = text_rytm_font.render(get_rytm_actual(rytm, term), True, "#FFFFFF")  
+        text_rytm_actual = text_rytm_font.render(get_rytm_actual(rytm, term), True, "#FFFFFF")  
+        text_term = text_rytm_font.render(str(term+1), True, "#FFFFFF")
 
-      term += 1
-      if term >= max_term: term = 0
-
-      if tnum == False:
-        tx = 183
-        tnum = True
-      else:
-        tx = 225
-        tnum = False      
+        term += 1
+        if term >= max_term: term = 0
+        
+        # nota
+        if tnum == False:
+          tx = 183
+          tnum = True
+        else:
+          tx = 225
+          tnum = False      
 
     # change texts
     text_bmp = text_bmp_font.render("BPM: " + str(bmp), True, "#FFFFFF")
@@ -220,9 +225,11 @@ if __name__ == "__main__":
     screen.blit(text_bmp, text_bmp_rect)
     screen.blit(text_get_vol, text_get_vol_rect)        
     screen.blit(text_rytm,  (8, 80))  
-    screen.blit(text_rytm_actual,  (8, 95))  
-    screen.blit(text_info1, (10, 120))  
-    screen.blit(text_copy,  (195, 135))      
+    screen.blit(text_rytm_actual,  (8, 80))  
+    if rytm: screen.blit(text_term,  (10, 100))  
+    if ppause == True: screen.blit(text_pause, (180, 100))
+    #screen.blit(text_info1, (10, 120))  
+    #screen.blit(text_copy,  (195, 135))      
 
     pygame.display.update()
     pygame.time.Clock().tick(100)
