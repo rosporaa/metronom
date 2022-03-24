@@ -18,6 +18,7 @@ Ovládanie:
    - plus, mínus               : hlasitosť
    - šípka vpravo, šípka vľavo : zvýšenie/zníženie BPM o 10
    - šípka hore, šípka dole    : zvýšenie/zníženie BPM o 1
+   - medzera                   : pozastavenie programu
    - q                         : koniec programu
   - Myš
     - kliknutím na BPM zvyšujete/znžujete BPM o 10 (ľavé alebo pravé tlačidlo myšky)
@@ -48,6 +49,7 @@ Controls:
    - plus, minus              : volume
    - arrow left, arrow right  : increase/decrease BPM by 10
    - arrow up, arrow down     : increase/decrease BPM by 1
+   - space                    : pause
    - q                        : quit 
   - Mouse
     - click on BPM to increase/decrease BPM by 10 (left or right mouse button)
@@ -58,7 +60,7 @@ The program can display the rhythm and change the sound at the time/beat in the 
 
 Rhythm file:   
 The file can have one or two lines. The first line must contain a rhythm, the 2nd may contain a number with the required BPM for the specified rhythm. The first 32 characters are accepted in the first line.
-All x characters in the first line are considered accented. Other characters can be arbitrary (for beats without emphasis).   
+All x characters in the first line are considered accented. Other characters can be arbitrary (for beats without emphasis), see examples solea.txt, valz.txt.   
 Example file for Soleá (accents at 3, 6, 8, 10 and 12 ):   
 nnxnnxnxnxnx   
 115    
