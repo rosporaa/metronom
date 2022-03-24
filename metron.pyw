@@ -54,6 +54,20 @@ def get_rytm_actual(rytm, term):
 
   return ret
 
+def game_error(s, t):
+  while True:
+    for event in pygame.event.get():
+      if event.type == pygame.QUIT:
+        pygame.quit()
+        sys.exit(0)
+      if event.type == pygame.KEYDOWN:
+        pygame.quit()
+        sys.exit(0)
+
+    s.blit(t, (3, 6))    
+    pygame.time.Clock().tick(10)
+    pygame.display.update()        
+
 if __name__ == "__main__":
   #variables
   bmp = 60                # BPM
@@ -62,9 +76,9 @@ if __name__ == "__main__":
   sw = 250                # screen
   sh = 130
   volume = 1.0
-  ppause = False
+  ppause = False          # paused?
   tnum = True
-  tx = 183
+  tx = 183                # note x coord start
   ffont = 'seguisym.ttf'  # font eith symbols
   tsound = 'metr.wav'     # low sound
   hsound = 'metr_h.wav'   # high sound
@@ -73,9 +87,43 @@ if __name__ == "__main__":
   rytm = ""               # rhythm to play
   term = max_term = 0
 
-  # files
-  if not os.path.exists(ffont)  or  not os.path.exists(tsound)  or  not os.path.exists(hsound):
-    sys.exit(0)
+  # init
+  pygame.init()
+  screen = pygame.display.set_mode((sw,sh))
+  pygame.display.set_caption("Metronóm")
+
+  # font exists?
+  if not os.path.exists(ffont):
+    flist = pygame.font.get_fonts()
+    if len(flist):
+      tmp_font = flist[0]+'.ttf'
+    else:
+      pygame.quit()
+      sys.exit(0)
+
+    try:
+      text_info_font = pygame.font.SysFont(tmp_font, 15)
+      text_error = text_info_font.render("Error: Symbolic font file", False, "#FFFFFF")
+      game_error(screen, text_error)
+    except:
+      pygame.quit()
+      sys.exit(0)
+    
+  # fonts
+  text_bmp_font  = pygame.font.Font(ffont, 40)
+  text_tick_font = pygame.font.Font(ffont, 32)
+  text_info_font = pygame.font.Font(ffont, 14)
+  text_rytm_font = pygame.font.Font(ffont, 16)
+  text_copy_font = pygame.font.Font(ffont, 9)
+
+  # wav files exists?
+  if not os.path.exists(hsound):
+    text_error = text_info_font.render(f"Error: Can't find wav file {hsound}", True, "#FFFFFF")
+    game_error(screen, text_error)
+
+  if not os.path.exists(tsound):
+    text_error = text_info_font.render(f"Error: Can't find wav file {tsound}", True, "#FFFFFF")
+    game_error(screen, text_error)
 
   if sys.argv and len(sys.argv) > 1:
     rytm, bmp = rytm_read(sys.argv[1], rmaxlen)
@@ -83,18 +131,6 @@ if __name__ == "__main__":
 
   if rytm:
     rytm = rytm_replace(rytm)
-
-  # init
-  pygame.init()
-  screen = pygame.display.set_mode((sw,sh))
-  pygame.display.set_caption("Metronóm")
-
-  # fonts
-  text_bmp_font  = pygame.font.Font(ffont, 40)
-  text_tick_font = pygame.font.Font(ffont, 32)
-  text_info_font = pygame.font.Font(ffont, 14)
-  text_rytm_font = pygame.font.Font(ffont, 16)
-  text_copy_font = pygame.font.Font(ffont, 9)
 
   # texts
   text_bmp = text_bmp_font.render("BPM: " + str(bmp), True, "#FFFFFF")
@@ -122,18 +158,19 @@ if __name__ == "__main__":
   hsound = pygame.mixer.Sound(hsound)
   hsound.set_volume(volume)
 
-  # timer
-  lastt = pygame.time.get_ticks()
-
   # rhythm
   if rytm:
     term = 0
     max_term = len(rytm)
 
+  # timer
+  lastt = pygame.time.get_ticks()
+
   while True:
     # controls
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
+        pygame.quit()
         sys.exit(0)
       # keyboard
       if event.type == pygame.KEYDOWN:
@@ -161,6 +198,7 @@ if __name__ == "__main__":
             volume -= 0.1
         # quit
         if event.key == pygame.K_q:
+          pygame.quit()
           sys.exit(0)
         # pause
         if event.key == pygame.K_SPACE:
