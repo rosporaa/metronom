@@ -5,7 +5,7 @@
 ## Jednoduchý metronóm
 
 Win:   
-Nakopírujte VŠETKY štyri súbory (exe, wav, wav, ttf) niekam do počítača (do toho istého priečinka).   
+Nakopírujte VŠETKY súbory - exe, wav, ttf - niekam do počítača (do toho istého priečinka).   
 Spustite metron.exe   
 
 Linux:   
@@ -34,10 +34,13 @@ Príklad súboru pre Soleá (hrá sa na 12 dôb, s prízvkom na 3, 6, 8, 10 a 12
 nnxnnxnxnxnx   
 115   
 
+Zmena zvukov:   
+Program prehráva súbory so zvukmi, ktoré majú názov metr.wav a metr_h.wav. Pre dobu s dôrazom prehrá metr.wav. Ak chcete iný zvuk, premenujte súbor/súbory s Vaším zvukom na uvedené názvy (metr.wav a metr_h.wav). Napr. premenujte súbor clap_h.wav na metr_h.wav. 
+
 ## Simple metronome
 
 Win:   
-Copy all four files (exe, wav, wav, ttf) to your computer (to the same directory).   
+Copy all files - exe, wav, ttf- to your computer (to the same directory).   
 Run metron.exe    
 
 Linux:    
@@ -65,6 +68,8 @@ Example file for Soleá (accent/emphasis on 3rd, 6th, 8th, 10th and 12., with rh
 nnxnnxnxnxnx   
 115    
 
+Sound files:   
+Program plays sound from files metr.wav and metr_h.wav. Rename your own sound files to metr.wav and/or metr_h.wav, for example rename lap_h.wav to metr_h.wav.
 
 Poznámky/Notes:   
 ttf downloaded from http://www.freefontsdownload.net   
