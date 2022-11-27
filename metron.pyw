@@ -88,22 +88,23 @@ def read_cfg():
 
       if cfgJson:
         for i in cfgJson.keys():
-          if i == "bmp":
-            bmp = cfgJson[i]
-          if i == "bmp_max":
-            bmp_max = cfgJson[i]
-          if i == "bmp_min":
-            bmp_min = cfgJson[i]
-          if i == "tsound":
-            tsound = cfgJson[i]
-          if i == "hsound":
-            hsound = cfgJson[i]
-          if i == "bg_color":
-            bg_color = cfgJson[i]
-          if i == "rmaxlen":
-            rmaxlen = cfgJson[i]
-          if i == "rytmFile":
-            rytmFile = cfgJson[i]
+          if cfgJson[i]: 
+            if i == "bmp":
+              bmp = cfgJson[i]
+            if i == "bmp_max":
+              bmp_max = cfgJson[i]
+            if i == "bmp_min":
+              bmp_min = cfgJson[i]
+            if i == "tsound":
+              tsound = cfgJson[i]
+            if i == "hsound":
+              hsound = cfgJson[i]
+            if i == "bg_color":
+              bg_color = cfgJson[i]
+            if i == "rmaxlen":
+              rmaxlen = cfgJson[i]
+            if i == "rytmFile":
+              rytmFile = cfgJson[i]
     except e:
       pass
     finally:
