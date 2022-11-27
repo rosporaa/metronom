@@ -92,9 +92,8 @@ If exists file metronom.json, program runs with settings from configuration file
  - rhytm file (file is loaded automatically at stort of the program)
 
 
-Poznámky/Notes:   
-ttf downloaded from http://www.freefontsdownload.net   
-exe created by: pyinstaller --onefile metron.pyw (on W10)
+Poznámky/Notes:    
+exe created by: pyinstaller --onefile --icon metronom.ico metron.pyw (on W10)
 
 
 
