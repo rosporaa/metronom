@@ -9,7 +9,7 @@ def get_volume_text(volume):
 
   for i in range(1,11):
     if ivol >= i:
-      itxt = itxt + "\u2593"
+      itxt = itxt + "\u2589"
     else:
       itxt = itxt + "\u2591"
   itxt += ' +'
@@ -122,7 +122,7 @@ if __name__ == "__main__":
   ppause = False          # paused?
   tnum = True
   tx = 183                # note x coord start
-  ffont = 'seguisym.ttf'  # font eith symbols
+  ffont = 'FreeSans.ttf'  # font eith symbols - http://ftp.gnu.org/gnu/freefont/
   rytm = ""               # rhythm to play (from file)
   term = max_term = 0
   
@@ -141,8 +141,8 @@ if __name__ == "__main__":
       sys.exit(0)
 
     try:
-      text_info_font = pygame.font.SysFont(tmp_font, 15)
-      text_error = text_info_font.render("Error: Symbolic font file", False, "#FFFFFF")
+      text_info_font = pygame.font.SysFont(None, 18)
+      text_error = text_info_font.render("Error: No symbolic font file", True, "#FFFFFF")
       game_error(screen, text_error)
     except:
       pygame.quit()
