@@ -1,0 +1,10 @@
+{
+  "bmp":     60,       
+  "bmp_max": 240,
+  "bmp_min": 20,
+  "rmaxlen": 32,
+  "tsound":   "clap.wav",
+  "hsound":   "clap_h.wav",
+  "bg_color": "#009990",
+  "rytmFile": "bulerias.txt"
+}
