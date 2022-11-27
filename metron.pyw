@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-import sys, os, re
+import sys, os, re, json
 os.environ['PYGAME_HIDE_SUPPORT_PROMPT'] = "hide"
 import pygame
 
@@ -16,9 +16,9 @@ def get_volume_text(volume):
 
   return itxt
 
-def rytm_read(file, maxlen):
+def rytm_read(file, maxlen, rytmAvg):
   r = ""
-  b = 60
+  b = rytmAvg
 
   if not os.path.exists(file):
     return r, b
@@ -68,11 +68,53 @@ def game_error(s, t):
     pygame.time.Clock().tick(10)
     pygame.display.update()        
 
-if __name__ == "__main__":
-  #variables
+def read_cfg():
+  cfgFile = "metronom.json"
   bmp = 60                # BPM
   bmp_max = 240
   bmp_min = 20
+  tsound = 'metr.wav'     # low sound
+  hsound = 'metr_h.wav'   # high sound
+  bg_color = "#009999"
+  rmaxlen = 32            # max periods in rhythm
+  rytmFile = ""
+  cfgJson = {}
+  fj = 0
+
+  if os.path.exists(cfgFile):
+    try:
+      fj = open(cfgFile, "r")
+      cfgJson = json.load(fj)
+
+      if cfgJson:
+        for i in cfgJson.keys():
+          if i == "bmp":
+            bmp = cfgJson[i]
+          if i == "bmp_max":
+            bmp_max = cfgJson[i]
+          if i == "bmp_min":
+            bmp_min = cfgJson[i]
+          if i == "tsound":
+            tsound = cfgJson[i]
+          if i == "hsound":
+            hsound = cfgJson[i]
+          if i == "bg_color":
+            bg_color = cfgJson[i]
+          if i == "rmaxlen":
+            rmaxlen = cfgJson[i]
+          if i == "rytmFile":
+            rytmFile = cfgJson[i]
+    except e:
+      pass
+    finally:
+      if fj:
+        fj.close()
+
+  return bmp_max, bmp_min, bmp, tsound, hsound, bg_color, rmaxlen, rytmFile
+
+
+if __name__ == "__main__":
+  #variables
   sw = 250                # screen
   sh = 130
   volume = 1.0
@@ -80,13 +122,9 @@ if __name__ == "__main__":
   tnum = True
   tx = 183                # note x coord start
   ffont = 'seguisym.ttf'  # font eith symbols
-  tsound = 'metr.wav'     # low sound
-  hsound = 'metr_h.wav'   # high sound
-  bg_color = "#009999"
-  rmaxlen = 32            # max periods in rhythm
-  rytm = ""               # rhythm to play
+  rytm = ""               # rhythm to play (from file)
   term = max_term = 0
-
+  
   # init
   pygame.init()
   screen = pygame.display.set_mode((sw,sh))
@@ -116,6 +154,13 @@ if __name__ == "__main__":
   text_rytm_font = pygame.font.Font(ffont, 16)
   text_copy_font = pygame.font.Font(ffont, 9)
 
+  # read configuration
+  bmp_max, bmp_min, bmp, tsound, hsound, bg_color, rmaxlen, rytmFile = read_cfg()
+
+  if rytmFile:
+    rytm, bmp = rytm_read(rytmFile, rmaxlen, int((bmp_max - bmp_min)/2))
+    if bmp > bmp_max or bmp < bmp_min: bmp = int((bmp_max - bmp_min)/2)
+
   # wav files exists?
   if not os.path.exists(hsound):
     text_error = text_info_font.render(f"Error: Can't find wav file {hsound}", True, "#FFFFFF")
@@ -125,9 +170,10 @@ if __name__ == "__main__":
     text_error = text_info_font.render(f"Error: Can't find wav file {tsound}", True, "#FFFFFF")
     game_error(screen, text_error)
 
+  # rewrite rytm file - stdin prior
   if sys.argv and len(sys.argv) > 1:
-    rytm, bmp = rytm_read(sys.argv[1], rmaxlen)
-    if bmp > bmp_max or bmp < bmp_min: bmp = 60
+    rytm, bmp = rytm_read(sys.argv[1], rmaxlen, int((bmp_max - bmp_min)/2))
+    if bmp > bmp_max or bmp < bmp_min: bmp = int((bmp_max - bmp_min)/2)
 
   if rytm:
     rytm = rytm_replace(rytm)
