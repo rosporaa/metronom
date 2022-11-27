@@ -55,6 +55,9 @@ def get_rytm_actual(rytm, term):
   return ret
 
 def game_error(s, t):
+  s.blit(t, (3, 6))    
+  pygame.display.update()        
+
   while True:
     for event in pygame.event.get():
       if event.type == pygame.QUIT:
@@ -64,9 +67,6 @@ def game_error(s, t):
         pygame.quit()
         sys.exit(0)
 
-    s.blit(t, (3, 6))    
-    pygame.time.Clock().tick(10)
-    pygame.display.update()        
 
 def read_cfg():
   cfgFile = "metronom.json"
@@ -125,6 +125,7 @@ if __name__ == "__main__":
   ffont = 'FreeSans.ttf'  # font eith symbols - http://ftp.gnu.org/gnu/freefont/
   rytm = ""               # rhythm to play (from file)
   term = max_term = 0
+  tmp_font = ""
   
   # init
   pygame.init()
@@ -133,16 +134,9 @@ if __name__ == "__main__":
 
   # font exists?
   if not os.path.exists(ffont):
-    flist = pygame.font.get_fonts()
-    if len(flist):
-      tmp_font = flist[0]+'.ttf'
-    else:
-      pygame.quit()
-      sys.exit(0)
-
     try:
       text_info_font = pygame.font.SysFont(None, 18)
-      text_error = text_info_font.render("Error: No symbolic font file", True, "#FFFFFF")
+      text_error = text_info_font.render("Error: No symbolic font file", False, "#FFFFFF")
       game_error(screen, text_error)
     except:
       pygame.quit()
